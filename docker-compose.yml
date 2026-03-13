@@ -4,11 +4,26 @@ services:
     build: .
     ports:
       - "5000:5000"
+    environment:
+      - DB_USER=admin
+      - DB_PASS=password
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=meubanco
+      - SECRET_KEY=chave-secreta-producao-2026
     depends_on:
       - db
+    restart: always
+
   db:
     image: postgres:13
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
       POSTGRES_DB: meubanco
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pgdata:

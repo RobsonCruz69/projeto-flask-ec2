@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Fórum Flask - Posts{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>Posts Recentes</h1>
+  {% if session.get('user_id') %}
+    <a href="{{ url_for('pagina_novo_post') }}" class="btn btn-primary">Novo Post</a>
+  {% endif %}
+</div>
+
+{% if posts %}
+  {% for post in posts %}
+    <div class="card">
+      <h2><a href="{{ url_for('pagina_post', post_id=post.id) }}">{{ post.titulo }}</a></h2>
+      <div class="meta">
+        <span>por <strong>{{ post.autor.nome }}</strong></span>
+        <span>{{ post.criado_em.strftime('%d/%m/%Y %H:%M') }}</span>
+        <span>{{ post.comentarios|length }} comentário(s)</span>
+      </div>
+      <div class="content">{{ post.conteudo[:200] }}{% if post.conteudo|length > 200 %}...{% endif %}</div>
+    </div>
+  {% endfor %}
+{% else %}
+  <div class="empty">Nenhum post ainda. Seja o primeiro a publicar!</div>
+{% endif %}
+{% endblock %}

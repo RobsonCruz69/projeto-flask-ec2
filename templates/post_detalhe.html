@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}{{ post.titulo }} - Fórum Flask{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h2>{{ post.titulo }}</h2>
+  <div class="meta">
+    <span>por <strong>{{ post.autor.nome }}</strong></span>
+    <span>{{ post.criado_em.strftime('%d/%m/%Y %H:%M') }}</span>
+  </div>
+  <div class="content" style="white-space: pre-wrap;">{{ post.conteudo }}</div>
+
+  {% if session.get('user_id') == post.autor_id %}
+    <form method="POST" action="{{ url_for('pagina_deletar_post', post_id=post.id) }}" style="margin-top: 1rem;"
+          onsubmit="return confirm('Tem certeza que deseja deletar este post?')">
+      <button type="submit" class="btn btn-danger btn-sm">Deletar Post</button>
+    </form>
+  {% endif %}
+</div>
+
+<div class="comentarios-section">
+  <h3>Comentários ({{ post.comentarios|length }})</h3>
+
+  {% if session.get('user_id') %}
+    <form method="POST" action="{{ url_for('pagina_comentar', post_id=post.id) }}" style="margin-bottom: 1.5rem;">
+      <div class="form-group">
+        <textarea name="conteudo" required placeholder="Escreva seu comentário..." style="min-height: 80px;"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-sm">Comentar</button>
+    </form>
+  {% else %}
+    <div class="empty" style="padding: 1rem;">
+      <a href="{{ url_for('pagina_login') }}">Faça login</a> para comentar.
+    </div>
+  {% endif %}
+
+  {% for comentario in post.comentarios %}
+    <div class="comentario">
+      <div class="meta">
+        <strong>{{ comentario.autor.nome }}</strong> &middot; {{ comentario.criado_em.strftime('%d/%m/%Y %H:%M') }}
+      </div>
+      <div class="content">{{ comentario.conteudo }}</div>
+    </div>
+  {% else %}
+    <div class="empty" style="padding: 1rem;">Nenhum comentário ainda.</div>
+  {% endfor %}
+</div>
+{% endblock %}

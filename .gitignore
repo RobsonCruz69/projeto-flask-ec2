@@ -5,3 +5,4 @@ instance/
 *.db
 *.pem
 .env
+cookies.txt

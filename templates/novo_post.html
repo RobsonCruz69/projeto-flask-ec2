@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Novo Post - Fórum Flask{% endblock %}
+
+{% block content %}
+<div class="form-card" style="max-width: 640px;">
+  <h1>Novo Post</h1>
+  <form method="POST">
+    <div class="form-group">
+      <label for="titulo">Título</label>
+      <input type="text" id="titulo" name="titulo" required placeholder="Título do post" maxlength="200">
+    </div>
+    <div class="form-group">
+      <label for="conteudo">Conteúdo</label>
+      <textarea id="conteudo" name="conteudo" required placeholder="Escreva seu post aqui..."></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Publicar</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Usuários - Fórum Flask{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>Usuários Cadastrados</h1>
+</div>
+
+{% if usuarios %}
+  <div class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Posts</th>
+          <th>Comentários</th>
+          <th>Desde</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in usuarios %}
+        <tr>
+          <td><strong>{{ u.nome }}</strong></td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.posts|length }}</td>
+          <td>{{ u.comentarios|length }}</td>
+          <td>{{ u.criado_em.strftime('%d/%m/%Y') }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <div class="empty">Nenhum usuário cadastrado ainda.</div>
+{% endif %}
+{% endblock %}
